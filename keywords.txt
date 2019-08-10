@@ -1,0 +1,19 @@
+DataCommand_e	KEYWORD1
+AddressCommand_e	KEYWORD1
+DisplayControl_e	KEYWORD1
+
+TM1637	KEYWORD1
+tm1637	KEYWORD1
+init	KEYWORD2
+display	KEYWORD2
+send_fixed_address	KEYWORD2
+setBrightness	KEYWORD2
+changeBrightness	KEYWORD2
+switchColon	KEYWORD2
+offMode	KEYWORD2
+onMode	KEYWORD2
+dispNumber	KEYWORD2
+
+MI2C	KEYWORD3
+
+TOTAL_DIGITS LITERAL1
