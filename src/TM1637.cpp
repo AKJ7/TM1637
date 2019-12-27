@@ -107,7 +107,8 @@ void TM1637::display(uint8_t value[4]) const
     mI2C.beginTransmission();
     mI2C.send(static_cast<uint8_t>(AddressCommand_e::C0H));
     for (uint8_t i = 0; i < TOTAL_DIGITS; i++)
-        colon ? mI2C.send(fetch(value[i]) + 0x80) : mI2C.send(fetch(value[i]));
+        // If colon is true, or bit i of dp is set, then turn on MSb
+        (colon || (dp & (1<<i))) ? mI2C.send(fetch(value[i]) + 0x80) : mI2C.send(fetch(value[i]));
     mI2C.endTransmission();
     mI2C.beginTransmission();
     mI2C.send(static_cast<uint8_t>(brightness));
@@ -181,4 +182,9 @@ void TM1637::setBrightness(uint8_t value) noexcept
 void TM1637::switchColon() noexcept
 {
     colon = !colon;
+}
+
+void TM1637::setDp(uint8_t value) noexcept
+{
+    dp = value;
 }
