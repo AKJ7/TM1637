@@ -133,6 +133,7 @@ protected:
     MI2C mI2C;
     DisplayControl_e brightness = DisplayControl_e::PULSE_WIDTH_4_16;
     bool colon = false;
+    uint8_t dp = 0x00; // dp LED bit pattern. LSb is leftmost dp.
     uint8_t numbers[10] = {0x3f, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
     uint8_t alphabet[6] = {0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71};
     uint8_t minus       = 0x40;
@@ -204,6 +205,7 @@ public:
     void setBrightness(uint8_t value);
     void changeBrightness(uint8_t value) const;
     void switchColon() noexcept;
+    void setDp(uint8_t value);
     void offMode();
     void onMode();
     template <typename T>
