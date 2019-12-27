@@ -3,6 +3,64 @@
 
 #include "Arduino.h"
 
+/****************************************************************
+  * TODO:
+  *     - Add scroll effect (Vertical scroll and horizontal scroll)
+  *     - Add blink effect
+  *     - Add fade effect
+  *     - Add overflow support
+  *
+  **************************************************************/
+
+namespace
+{   
+    // Type traits
+
+    template <typename T, T v>
+    struct integral_constant
+    {
+        static constexpr T value = v;
+        using value_type = T;
+        using type = integral_constant;
+        constexpr operator value_type() const noexcept { return value; }
+        constexpr value_type operator()() const noexcept { return value; }
+    };
+
+    using true_type = integral_constant<bool, true>;
+    using false_type = integral_constant<bool, false>;
+
+    template <typename T>
+    struct is_integral_base : false_type
+    {
+    };
+
+    template <> struct is_integral_base<char> : true_type {};
+    template <> struct is_integral_base<short>: true_type {};
+    template <> struct is_integral_base<int>: true_type {};
+    template <> struct is_integral_base<long>: true_type {};
+    template <> struct is_integral_base<unsigned char>: true_type {};
+    template <> struct is_integral_base<unsigned short>: true_type {};
+    template <> struct is_integral_base<unsigned int>: true_type {};
+    template <> struct is_integral_base<unsigned long>: true_type {};
+
+    template <typename T>
+    struct is_integral : is_integral_base<T>
+    {
+    };
+
+    template <typename T> struct is_floating_point_base: false_type {};
+
+    template <> struct is_floating_point_base<float>: true_type {};
+    template <> struct is_floating_point_base<double>: true_type {};
+    template <> struct is_floating_point_base<long double>: true_type {};
+
+    template <typename T> 
+    struct is_floating_point : is_floating_point_base<T>
+    {
+    };
+};
+
+
 class TM1637 {
 public:
     enum class DataCommand_e: uint8_t
@@ -37,6 +95,13 @@ public:
         DISPLAY_OFF = 0x80,
         DISPLAY_ON = 0x88
     };
+
+    enum class overflow_e: uint8_t
+    {
+        ON,
+        OFF
+    };
+
     /**
      *  @class mI2C
      *  @brief Modified I2C that the display supports.
@@ -73,13 +138,68 @@ protected:
     uint8_t minus       = 0x40;
     uint8_t empty       = 0x00;
     virtual uint8_t fetch(uint8_t value) const noexcept;
+    
+
+    // Format: [A, B, C, D, E, F, G, DP] 
+    struct singleDigit
+    {
+    private:
+        uint8_t segments;
+        friend TM1637;
+    public:
+        explicit singleDigit(uint8_t segments) noexcept
+        {
+            this->segments = segments;
+        }
+        SingleDigit()
+        {
+            segments = 0x00;
+        };
+        void clear() noexcept
+        {
+            segments = 0x00;
+        }
+        uint8_t get() const noexcept
+        {
+            return segments;
+        }
+    };
+
+    template <typename Category, typename T, typename Distance = uint8_t, typename Pointer = T*, typename Reference = T&>
+    struct Iterator
+    {
+        using iterator_category = Category;
+        using value_type = T;
+        using difference_type = Distance;
+        using pointer = Pointer;
+        using reference = Reference;
+    };
+
+    template <unsigned TOTAL>
+    class DigIterator : Iterator<uint8_t, singleDigit, uint8_t>
+    {
+    private:
+        pointer ptr;
+        unsigned counter = 0;
+    public:
+        explicit DigIterator(pointer ptr) noexcept : ptr{ptr} {}
+        DigIterator& operator++() { }
+        DigIterator operator++(int) {}
+        bool operator==(DigIterator rhs) const noexcept { return ptr == rhs.ptr; }
+        bool operator!=(DigIterator rhs) const noexcept { return ptr != rhs.ptr; }
+        pointer operator*() { return ptr; }
+    };
 
 public:
 
     TM1637(uint8_t clkPin, uint8_t dataPin);
     void init();
+    void begin();
     void display(uint8_t reg_address, uint8_t value) const;
     void display(uint8_t value[4]) const;
+    void display(String message, overflow_e overflow = overflow_e::ON) const;
+    void display(const char* message) const;
+    void display(uint8_t value);
     void send_fixed_address(AddressCommand_e addressCommand, uint8_t value);
     void setBrightness(uint8_t value);
     void changeBrightness(uint8_t value) const;
@@ -88,6 +208,8 @@ public:
     void onMode();
     template <typename T>
     void dispNumber(T value);
+   // DigIterator begin( return DigIterator<TOTAL_DIGITS>());
+   // DigIterator end();
     TM1637() = default;
 };
 

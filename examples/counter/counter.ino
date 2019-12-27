@@ -1,8 +1,8 @@
 #include <TM1637.h>
 
 // Instantiation and pins configurations
-// Pin 2 - > DIO
-// Pin 3 - > CLK
+// Pin 3 - > DIO
+// Pin 2 - > CLK
 TM1637 tm(2, 3);
 
 void setup()
@@ -12,8 +12,7 @@ void setup()
 
 void loop()
 {
-    for (int i = -100 ; i < 10000; i++)
-    {
+    for (int i = -100 ; i < 10000; i++) {
         tm.dispNumber(i);
         delay(1000);
     }

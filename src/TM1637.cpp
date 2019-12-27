@@ -63,6 +63,11 @@ void TM1637::init()
     offMode();
 }
 
+void TM1637::begin()
+{
+    init();
+}
+
 uint8_t TM1637::fetch(uint8_t value) const noexcept
 {
     if (value == minus)
@@ -112,6 +117,10 @@ void TM1637::display(uint8_t value[4]) const
     mI2C.beginTransmission();
     mI2C.send(static_cast<uint8_t>(brightness));
     mI2C.endTransmission();
+}
+
+void TM1637::display(String message, overflow_e overflow) const
+{
 }
 
 void TM1637::changeDisplayControl(DisplayControl_e displayControl) const
