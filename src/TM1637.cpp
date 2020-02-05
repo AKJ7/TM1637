@@ -192,11 +192,9 @@ void TM1637::switchColon() noexcept
 {
     colon = !colon;
 }
-<<<<<<< HEAD
-=======
 
 void TM1637::setDp(uint8_t value) noexcept
 {
     dp = value;
 }
->>>>>>> 7ea397509a40154969b461eabd6f30ed3b097156
+
