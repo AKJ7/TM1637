@@ -202,7 +202,7 @@ public:
     void display(const char* message) const;
     void display(uint8_t value);
     void send_fixed_address(AddressCommand_e addressCommand, uint8_t value);
-    void setBrightness(uint8_t value);
+    void setBrightness(uint8_t value) noexcept;
     void changeBrightness(uint8_t value) const;
     void switchColon() noexcept;
     void setDp(uint8_t value);
