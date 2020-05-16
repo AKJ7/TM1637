@@ -8,9 +8,13 @@ TM1637 Library Driver for Microcontrollers
 - Very scalable API
 - Supportable ASCII characters support  
 - Supports overflow, padding and offset values
-
+- Supports Brightness modification
+- On/Off Mode
+- On/Off colon
+- Screen clearing 
 
 ## Example
+Basic example:
 
 ```cpp
 
