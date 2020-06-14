@@ -109,10 +109,7 @@ public:
 #if TM1637_LEGACY
     DEPRECATED void update();
     template <typename T>
-    DEPRECATED void dispNumber(T value)
-    {
-        display(value, false, false, 0);
-    }
+    DEPRECATED void dispNumber(T value);
 #endif
 
 
@@ -176,8 +173,7 @@ protected:
 
 ## Contribution  
 
-Since i am very lazy, feel free to contribute. You might get your request add to the library faster if you add it yourself 
-and submit a pull request.  
+Since i am very lazy, feel free to contribute. Pull Requests get added faster ;-)
 
 ## Contributors
 

@@ -149,7 +149,7 @@ public:
     template <typename T>
     DEPRECATED void dispNumber(T value)
     {
-        display(value, false, false, 0);
+        display(value, true, true, 0);
     }
 #endif
 

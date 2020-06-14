@@ -1,10 +1,12 @@
-#include <TM1637.h>
-
 /***************************************
+* @file clock.ino
+* @ingroup examples
+* @brief Clock example
+*
 * With this example, the arduino displays
 * a clock that counts from 12:00 to 12:59
 * then turns the display off. To restarts,
-* simply press the reset button on the 
+* simply press the reset button on the
 * arduino.
 *
 * Please note that 1 second is simulated,
@@ -18,6 +20,8 @@
 * accordinly, if he/she really wish to achieve better
 * precision.
 ****************************************/
+
+#include <TM1637.h>
 
 
 // Instantiation and pins configurations
@@ -35,7 +39,7 @@ void loop()
 {
     for (int minutes = 12 ; minutes< 60; minutes++) {
         for (int seconds = 0; seconds < 60; seconds++) {
-            tm1637.dispNumber(seconds + minutes * 100);
+            tm1637.display(seconds + minutes * 100);
             delay(1000);            // Waits for 1 second = 1000 millisecond.
             tm1637.switchColon();
             if (minutes == 12 && seconds == 59) {

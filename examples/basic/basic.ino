@@ -1,3 +1,11 @@
+/**
+ * @file basic.ino
+ * @ingroup examples
+ * @brief Basic library usage example
+ *
+ * This example shows how to display different type of values on the display.
+ */
+
 #include <TM1637.h>
 
 
@@ -9,6 +17,7 @@ TM1637 tm(2, 3);
 void setup()
 {
     tm.begin();
+    tm.setBrightness(4);
 }
 
 void loop()
