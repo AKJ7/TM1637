@@ -1,5 +1,3 @@
-#include <zlib.h>
-
 /**
  * @file basic.ino
  * @ingroup examples
