@@ -1,6 +1,8 @@
 # TM1637
 
-TM1637 Library Driver for Microcontrollers  
+TM1637 Library Driver for Microcontrollers.  
+Warning!!! The TM1637 requires 5V at the DIO and CLK input. Hence connecting it the display to an 3.3 V Controller Board like the ESP32 will not work.
+Interfacing the 3.3V output of the DGIO pins of the board to 5V is recommended.
 
 ## Features  
 - Supports integers, float and string displaying  

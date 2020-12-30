@@ -178,10 +178,7 @@ public:
         mI2C_.beginTransmission();
         mI2C_.send(static_cast<uint8_t>(addressCommand));
         for (decltype(size) counter{}; counter < size; ++counter)
-        {
             (colon_ || (dp_ & (1u << counter))) ? mI2C_.send(values[counter] | 0x80u) : mI2C_.send(values[counter]);
-        }
-
         mI2C_.endTransmission();
         mI2C_.beginTransmission();
         mI2C_.send(static_cast<uint8_t >(brightness_));
@@ -189,7 +186,7 @@ public:
     }
 
     template <DataCommand_e dataCommand, AddressCommand_e addressCommand, typename ... Ts>
-    void sendToDisplay(Ts ... values) const noexcept
+    void sendToDisplayRaw(Ts ... values) const noexcept
     {
         mI2C_.beginTransmission();
         mI2C_.send(static_cast<uint8_t >(dataCommand));
