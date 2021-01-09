@@ -3,6 +3,8 @@
 
 #include <Arduino.h>
 
+// Put a longer delay in case your TM1637 is having issues with timing due to onboard capacitors
+#define TM1637_DELAY 2
 
 class MI2C
 {
@@ -27,7 +29,7 @@ public:
     {
         digitalWrite(clkPin_, HIGH);
         digitalWrite(dataPin_, HIGH);
-        delayMicroseconds(2);
+        delayMicroseconds(TM1637_DELAY);
         digitalWrite(dataPin_, LOW);
     }
 
@@ -36,7 +38,7 @@ public:
         digitalWrite(clkPin_, LOW);
         digitalWrite(dataPin_, LOW);
         digitalWrite(clkPin_, HIGH);
-        delayMicroseconds(2);
+        delayMicroseconds(TM1637_DELAY);
         digitalWrite(dataPin_, HIGH);
     }
 
@@ -47,9 +49,9 @@ public:
         {
             digitalWrite(clkPin_, LOW);
             digitalWrite(dataPin_, value & 0x01);
-            delayMicroseconds(3);
+            delayMicroseconds(TM1637_DELAY);
             digitalWrite(clkPin_, HIGH);
-            delayMicroseconds(3);
+            delayMicroseconds(TM1637_DELAY);
             value >>= 1u;
         }
         digitalWrite(clkPin_, LOW);
