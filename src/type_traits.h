@@ -344,6 +344,34 @@ namespace type_traits
 
     template <bool B, class T = void>
     using enable_if_t = typename enable_if<B, T>::type;
+
+    template <typename>
+    struct is_lvalue_reference: public false_type
+    {};
+
+    template <typename T>
+    struct is_lvalue_reference<T&>: public true_type
+    {};
+
+    template <typename>
+    struct is_rvalue_reference: public false_type
+    {};
+
+    template <typename T>
+    struct is_rvalue_reference<T&&>: public true_type
+    {};
+
+    template <class ...>
+    struct disjunction: false_type
+    {};
+
+    template <class T>
+    struct disjunction<T>: T
+    {};
+
+    template <class T, class ... Ts>
+    struct disjunction<T, Ts ...>: conditional<bool(T::value), T, disjunction<Ts...>>
+    {};
 }
 
 #endif //TM1637_TYPE_TRAITS_H

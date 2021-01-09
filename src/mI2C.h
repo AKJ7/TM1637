@@ -3,13 +3,13 @@
 
 #include <Arduino.h>
 
+#define TM1637_DELAY 2
 
 class MI2C
 {
 public:
     MI2C(uint8_t clkPin, uint8_t dataPin) noexcept : clkPin_{clkPin}, dataPin_{dataPin}
-    {
-    }
+    {}
 
     ~MI2C() = default;
 
@@ -27,7 +27,7 @@ public:
     {
         digitalWrite(clkPin_, HIGH);
         digitalWrite(dataPin_, HIGH);
-        delayMicroseconds(2);
+        delayMicroseconds(TM1637_DELAY);
         digitalWrite(dataPin_, LOW);
     }
 
@@ -36,7 +36,7 @@ public:
         digitalWrite(clkPin_, LOW);
         digitalWrite(dataPin_, LOW);
         digitalWrite(clkPin_, HIGH);
-        delayMicroseconds(2);
+        delayMicroseconds(TM1637_DELAY);
         digitalWrite(dataPin_, HIGH);
     }
 
@@ -47,9 +47,9 @@ public:
         {
             digitalWrite(clkPin_, LOW);
             digitalWrite(dataPin_, value & 0x01);
-            delayMicroseconds(3);
+            delayMicroseconds(TM1637_DELAY);
             digitalWrite(clkPin_, HIGH);
-            delayMicroseconds(3);
+            delayMicroseconds(TM1637_DELAY);
             value >>= 1u;
         }
         digitalWrite(clkPin_, LOW);
@@ -65,7 +65,7 @@ public:
     }
 
 private:
-    uint8_t clkPin_, dataPin_;
+    const uint8_t clkPin_, dataPin_;
 };
 
 #endif //TM1637_MI2C_H

@@ -1,11 +1,4 @@
-/**
- * @file counter.ino
- * @ingroup examples
- *
- * @brief Simple counter example.
- *
- * This example shows how to initialize the display and display numbers.
- */
+#include <TM1637.h>
 
 /**
  *
@@ -71,24 +64,18 @@
  */
 
 
-#include <TM1637.h>
-
-
-// Instantiation and pins configurations
-// Pin 3 - > DIO
-// Pin 2 - > CLK
 TM1637 tm(2, 3);
 
 void setup()
 {
-    tm.init(); // or tm.begin()
+    tm.begin();
+    tm.setBrightness(4);
 }
 
 void loop()
 {
-    for (int i = -100 ; i < 10000; i++) {
-        tm.display(i);
-        delay(100);
-        tm.clearScreen();   // To remove old display artefacts
-    }
+    auto d = DisplayDigit().setA().setE().setF().setD();
+    const uint8_t rawBuffer[4] = {d, 0x09, DisplayDigit().setA().setD(), 15};
+    tm.displayRawBytes(rawBuffer, 4)->blink(1000);
+    delay(2000);
 }

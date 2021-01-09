@@ -5,7 +5,7 @@
 *
 * With this example, the arduino displays
 * a clock that counts from 12:00 to 12:59
-* then turns the display off. To restarts,
+* then turns the blinks. To restarts,
 * simply press the reset button on the
 * arduino.
 *
@@ -17,42 +17,71 @@
 * time increment, will be bigger than 1 second.
 * The clock is therefore slower than a regular clock.
 * I advice the user of this libary to set the delay
-* accordinly, if he/she really wish to achieve better
+* accordinly, if they really wish to achieve better
 * precision.
 ****************************************/
 
-/** API:
+/**
  *
- * Visit https://github.com/AKJ7/TM1637 for more information
+ * Visit https://github.com/AKJ7/TM1637/ for more info
  *
- * @code{.cpp}
- * class TM1637
- * {
- *      TM1637(uint8_t clkPin, uint8_t dataPin, uint8_t bufferSize = TOTAL_DIGITS);
- *      void init();
- *      void begin();
- *      const Animator& refresh();
- *      void update();
- *      display(T value, bool overflow = true, bool pad = true, uint8_t offset = 0);
- *      template <typename T>
- *      DEPRECATED void dispNumber(T value)
- *      void sendToDisplay(DisplayControl_e displayControl) const noexcept;
- *      template <DataCommand_e dataCommand, AddressCommand_e addressCommand>
- *      void sendToDisplay(uint8_t* values, uint8_t size) const noexcept;
- *      template <DataCommand_e dataCommand, AddressCommand_e addressCommand, typename ... Ts>
- *      void sendToDisplay(Ts ... values);
- *      void setBrightness(uint8_t value);
- *      void changeBrightness(uint8_t value);
- *      void setDp(uint8_t value);
- *      uint8_t getBrightness();
- *      void offMode();
- *      void onMode();
- *      void colonOn();
- *      void colonOff();
- *      void switchColon();
- *      void clearScreen();
- * }
- * @endcode
+ * API
+ * class TM1637 {
+    public:
+        static constexpr uint8_t TOTAL_DIGITS = 4;
+        TM1637(uint8_t clkPin, uint8_t dataPin) noexcept;
+        TM1637(const TM1637&) = delete;
+        TM1637& operator=(const TM1637&) = delete;
+        ~TM1637() = default;
+        void begin();
+        inline void init();
+        inline Animator* refresh();
+        template <typename T>
+        typename type_traits::enable_if<
+            type_traits::is_string<T>::value ||
+            type_traits::is_floating_point<T>::value ||
+            type_traits::is_integral<T>::value,
+            Animator*>::type
+        display(const T value, bool overflow = true, bool pad = false, uint8_t offset = 0);
+        Animator* displayRawBytes(const uint8_t* buffer, size_t size);
+        void offMode() const noexcept;
+        void onMode() const noexcept;
+        inline void colonOff() noexcept;
+        inline void colonOn() noexcept;
+        inline Animator* switchColon() noexcept;
+        void clearScreen() noexcept;
+        inline void setDp(uint8_t value) noexcept;
+        inline uint8_t getBrightness() const noexcept;
+        void changeBrightness(uint8_t value) noexcept;
+        void setBrightness(uint8_t value) noexcept;
+    };
+
+    class Animator
+    {
+        Animator(uint8_t clkPin, uint8_t dataPin, uint8_t totalDigits);
+        void blink(Tasker::duration_type delay);
+        void fadeOut(Tasker::duration_type delay);
+        void fadeIn(Tasker::duration_type delay);
+        void scrollLeft(Tasker::duration_type delay);
+        void off() const;
+        void on(DisplayControl_e brightness) const;
+        void reset(const String& value);
+        void clear();
+        void refresh();
+    }
+
+    struct DisplayDigit
+    {
+        DisplayDigit& setA();
+        DisplayDigit& setB();
+        DisplayDigit& setC();
+        DisplayDigit& setD();
+        DisplayDigit& setE();
+        DisplayDigit& setF();
+        DisplayDigit& setG();
+        DisplayDigit& setDot();
+        operator uint8_t();
+    }
  */
 
 #include <TM1637.h>
@@ -73,16 +102,14 @@ void loop()
 {
     for (int minutes = 12 ; minutes< 60; minutes++) {
         for (int seconds = 0; seconds < 60; seconds++) {
-            tm1637.display(seconds + minutes * 100);
-            delay(1000);            // Waits for 1 second = 1000 millisecond.
-            tm1637.switchColon();
-            if (minutes == 12 && seconds == 59) {
-                // Turns the display off and keeps it off, until setBrightness() with different values is called
-                // The display setting are saved!
-                // tm1637.offMode(); Turns the display off, but the display will turn on, as soon as the loop continues
-                // This is due to the fact that offMode() doesn't save the brightness value.
-                tm1637.setBrightness(0); 
+            if (minutes == 12 && seconds == 10) {
+                tm1637.display(seconds + minutes * 100)->blink(1000); // Display the time and blink each 1 second
+                --seconds; // To keep the loop at this stage
+            } else {
+                tm1637.display(seconds + minutes * 100); // Display the time
+                tm1637.switchColon(); // Switch the colon. Your display must support it.
             }
+            delay(1000);
         }
     }
 }

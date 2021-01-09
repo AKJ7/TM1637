@@ -1,10 +1,9 @@
 /**
- * @file counter.ino
+ * @file animation.ino
  * @ingroup examples
+ * @brief Basic animation usage example
  *
- * @brief Simple counter example.
- *
- * This example shows how to initialize the display and display numbers.
+ * This example shows how to animate values on the display.
  */
 
 /**
@@ -70,7 +69,6 @@
     }
  */
 
-
 #include <TM1637.h>
 
 
@@ -81,14 +79,33 @@ TM1637 tm(2, 3);
 
 void setup()
 {
-    tm.init(); // or tm.begin()
+    tm.begin();
+    tm.setBrightness(4);
 }
 
 void loop()
 {
-    for (int i = -100 ; i < 10000; i++) {
-        tm.display(i);
-        delay(100);
-        tm.clearScreen();   // To remove old display artefacts
+    for (unsigned counter = 0; counter < 100; ++counter)
+    {
+        if (counter < 10) {
+            tm.display(9876)->blink(1500); // Display 9876 and blink every 1.5 seconds
+            delay(1000);
+            continue;
+        }
+        if (counter < 80) {
+            tm.display("PLAY-STOP")->scrollLeft(500); // Scroll "PLAY-STOP" to the left each 500 milliseconds
+            delay(500);
+            continue;
+        }
+        if (counter < 90) {
+            tm.display(1.234354534)->fadeOut(800);  // Fade out 1.2345... every 800 milliseconds
+            delay(1000);
+            continue;
+        }
+        if (counter < 100) {
+            tm.display(1.234354534)->fadeIn(1000); // Fade the same number in every 800 milliseconds
+            delay(1000);
+            continue;
+        }
     }
 }

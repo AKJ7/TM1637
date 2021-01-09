@@ -1,10 +1,17 @@
-/**
- * @file counter.ino
+/***
+ * @file split_screen.ino
  * @ingroup examples
+ * @brief Split screen example
  *
- * @brief Simple counter example.
+ * This example shows how to use the split screen functionality of the library by
+ * displaying the unit, here degree Celcius ("d") once, and the
+ * temperature which changes each 2 seconds.
  *
- * This example shows how to initialize the display and display numbers.
+ * The temperature values start at offset 1 (from the left side of the display)
+ * leaving one digit for the unit (which start at offset 0).
+ *
+ * This feature could be used to save power, as one part of the display needs to be
+ * updated, or could just be used to display different contents on the same display
  */
 
 /**
@@ -70,7 +77,6 @@
     }
  */
 
-
 #include <TM1637.h>
 
 
@@ -79,16 +85,25 @@
 // Pin 2 - > CLK
 TM1637 tm(2, 3);
 
+
+// Some get temperature function. Returns random temperatures between -10 and 30
+int getTemperature()
+{
+    return static_cast<int8_t >(random(-10, 30));
+}
+
 void setup()
 {
-    tm.init(); // or tm.begin()
+    tm.init();                              // Initializes the display
+    tm.setBrightness(3);                    // Set brightness to level 3
 }
 
 void loop()
 {
-    for (int i = -100 ; i < 10000; i++) {
-        tm.display(i);
-        delay(100);
-        tm.clearScreen();   // To remove old display artefacts
-    }
+    tm.display("d", false, false, 3);        // Displays the 'd' character at position 0 and don't fill the empty
+    // spots on the right
+    tm.display(getTemperature(), false, false);    // Display the random temperature starting at position 1 and fill the
+    // spots on the right with zeros
+
+    delay(2000);
 }
