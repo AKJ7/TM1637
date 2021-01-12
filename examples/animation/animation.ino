@@ -101,9 +101,9 @@ void loop()
             tm.display(1.234354534)->fadeOut(800);  // Fade out 1.2345... every 800 milliseconds
             delay(1000);
             continue;
-        }
+	}
         if (counter < 100) {
-            tm.display(1.234354534)->fadeIn(1000); // Fade the same number in every 800 milliseconds
+            tm.display(1.234354534)->fadeIn(800); // Fade the same number in every 800 milliseconds
             delay(1000);
             continue;
         }

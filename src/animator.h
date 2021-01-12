@@ -244,12 +244,8 @@ private:
         mi2C_.endTransmission();
         mi2C_.beginTransmission();
         mi2C_.send(static_cast<uint8_t>(ADDRESS_COMMAND));
-        for (decltype(size) counter{}; counter < size; ++counter) {
+        for (decltype(size) counter{}; counter < size; ++counter)
             mi2C_.send((colon_ || (dp_ & (1u << counter))) ? values[counter] | 0x80u : values[counter]);
-            Serial.print(static_cast<int>(values[counter]));
-            Serial.print(" ");
-        }
-        Serial.println("");
         mi2C_.endTransmission();
         mi2C_.beginTransmission();
         mi2C_.send(static_cast<uint8_t>(displayControl));
