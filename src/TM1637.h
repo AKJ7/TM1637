@@ -26,9 +26,9 @@ struct DisplayDigit
     DisplayDigit& setG() { value |= 0x40; return *this; }
     DisplayDigit& setDot() { value |= 0x80; return *this; }
     operator uint8_t() { return value; }
-    void operator=(uint8_t rhs) { value = rhs; }
+    DisplayDigit& operator=(uint8_t rhs) { value = rhs; }
 
-    uint8_t value;
+    uint8_t value{};
 };
 
 
@@ -85,6 +85,7 @@ public:
         animator_.buffer_ = "";
         for (decltype(size) counter{}; counter < size; ++counter)
             animator_.buffer_.concat(static_cast<char>(buffer[counter]));
+        animator_.resetAnimation();
         animator_.refresh();
         return &animator_; // TODO: Use weak_ptr
     }

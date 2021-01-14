@@ -172,6 +172,7 @@ public:
         buffer_ = "";
         for (decltype(value.length()) counter{}; counter < value.length(); ++counter)
             buffer_.concat(static_cast<char>(toDisplayDigit(value[counter])));
+        resetAnimation();
     }
 
     void clear()
@@ -200,6 +201,11 @@ private:
     {
         auto temp = static_cast<int>(e) - 0x87;
         return temp > 0 ? static_cast<uint8_t>(temp) : 0x00;
+    }
+
+    inline void resetAnimation() noexcept
+    {
+        currentAnimation = Animation::NONE;
     }
 
     static inline DisplayControl_e fetchControl(uint8_t value) noexcept
