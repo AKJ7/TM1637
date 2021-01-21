@@ -36,7 +36,7 @@ void loop()
     delay(1000);
 
     // Display float:
-    tm.display(2.65);
+    tm.display(29.65);
     delay(1000);
 
     // Display String:

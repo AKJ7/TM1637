@@ -167,11 +167,15 @@ public:
         sendToDisplay<DataCommand_e::FIXED_ADDRESS, AddressCommand_e::C6H>(brightness);
     }
 
-    void reset(const String& value)
-    {
+    void reset(const String& value) {
         buffer_ = "";
-        for (decltype(value.length()) counter{}; counter < value.length(); ++counter)
-            buffer_.concat(static_cast<char>(toDisplayDigit(value[counter])));
+        for (decltype(value.length()) counter{}; counter < value.length(); ++counter) {
+            auto d = toDisplayDigit(value[counter]);
+            if (d == 0x80u && buffer_.length() > 0) {
+                buffer_[buffer_.length() - 1] |= static_cast<char>(0x80u);
+            } else
+                buffer_.concat(static_cast<char>(d));
+        }
         resetAnimation();
     }
 
@@ -194,7 +198,7 @@ public:
 private:
     inline uint8_t toDisplayDigit(signed char c) noexcept
     {
-        return c < 0 ? 0x00 : ascii[static_cast<int>(c)];
+        return c < 0 ? 0x00 : ascii[static_cast<unsigned>(c)];
     }
 
     static inline uint8_t control2Int(DisplayControl_e e) noexcept

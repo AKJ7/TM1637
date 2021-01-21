@@ -26,7 +26,7 @@ struct DisplayDigit
     DisplayDigit& setG() { value |= 0x40; return *this; }
     DisplayDigit& setDot() { value |= 0x80; return *this; }
     operator uint8_t() { return value; }
-    DisplayDigit& operator=(uint8_t rhs) { value = rhs; }
+    DisplayDigit& operator=(uint8_t rhs) { value = rhs; return *this; }
 
     uint8_t value{};
 };
@@ -60,7 +60,7 @@ public:
         Animator*>::type
     display(const T value, bool overflow = true, bool pad = false, uint8_t offset = 0)
     {
-        String temp(value);
+        String temp = stringer<T>(value);
         if (temp == cache_)
             return &animator_;
         cache_ = temp;
@@ -85,7 +85,6 @@ public:
         animator_.buffer_ = "";
         for (decltype(size) counter{}; counter < size; ++counter)
             animator_.buffer_.concat(static_cast<char>(buffer[counter]));
-        animator_.resetAnimation();
         animator_.refresh();
         return &animator_; // TODO: Use weak_ptr
     }
@@ -102,6 +101,26 @@ public:
     void setBrightness(uint8_t value) noexcept { animator_.brightness_ = Animator::fetchControl(value); };
 
 private:
+    template <typename T>
+    typename type_traits::enable_if<type_traits::is_string<T>::value, String>::type stringer(T value)
+    {
+        return value;
+    }
+
+    template <typename T>
+    typename type_traits::enable_if<type_traits::is_integral<T>::value, String>::type stringer(T value)
+    {
+        return String(value);
+    }
+
+    template <typename T>
+    typename type_traits::enable_if<type_traits::is_floating_point<T>::value, String>::type stringer(T value)
+    {
+        return String(value, TOTAL_DIGITS);
+    }
+
+
+
     Animator                animator_;
     String                  cache_ = "";
 };
