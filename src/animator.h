@@ -149,7 +149,7 @@ public:
                 sendToDisplay<DataCommand_e::AUTOMATIC_ADDRESS_ADDING, AddressCommand_e::C0H>(
                         brightness_,
                         reinterpret_cast<const uint8_t*>(s.c_str()),
-                        static_cast<size_t>(min(totalDigits_, s.length())));
+                        static_cast<size_t>(min((unsigned int)totalDigits_, s.length())));
             }
             return;
         }
@@ -192,7 +192,7 @@ public:
         sendToDisplay<DataCommand_e::AUTOMATIC_ADDRESS_ADDING, AddressCommand_e::C0H>(
                 brightness_,
                 reinterpret_cast<const uint8_t*>(buffer_.c_str()),
-                static_cast<size_t>(min(totalDigits_, buffer_.length())));
+                static_cast<size_t>(min((unsigned int)totalDigits_, buffer_.length())));
     }
 
 private:
