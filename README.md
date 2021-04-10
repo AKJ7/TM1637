@@ -83,6 +83,7 @@ public:
 
 class Animator
 {
+public:
     Animator(uint8_t clkPin, uint8_t dataPin, uint8_t totalDigits);
     void blink(Tasker::duration_type delay);
     void fadeOut(Tasker::duration_type delay);
@@ -127,3 +128,4 @@ Many thanks to these contributors:
 - [tjhenry](https://github.com/tjhenry)  
 - [andrewerrington](https://github.com/andrewerrington)   
 - [jcmadrioso](https://github.com/jcmadrioso)
+- [Kostyantyn Matviyevskyy](https://github.com/kostyamat)

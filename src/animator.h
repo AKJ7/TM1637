@@ -8,7 +8,6 @@
 
 class Animator
 {
-
     struct Tasker
     {
         using duration_type = uint32_t;
@@ -43,7 +42,7 @@ class Animator
         READ_KEY_SCAN_DATA              = 0x42,
         WRITE_DATA_TO_DISPLAY_REGISTER  = 0x40,
         NORMAL_MODE                     = 0x40,
-        TEST_MODE                       = 0x48
+        TESTING_MODE                    = 0x48
     };
 
     enum class AddressCommand_e : uint8_t
