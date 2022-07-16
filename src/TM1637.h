@@ -116,9 +116,8 @@ private:
     template <typename T>
     typename type_traits::enable_if<type_traits::is_floating_point<T>::value, String>::type stringer(T value)
     {
-        return String(value, TOTAL_DIGITS);
+        return String(value, (unsigned int)TOTAL_DIGITS);
     }
-
 
 
     Animator                animator_;
