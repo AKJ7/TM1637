@@ -193,8 +193,6 @@ public:
             Animator *>::type
     display(const T value, bool overflow = true, bool pad = false, uint8_t offset = 0) {
         String temp = stringer<T>(value);
-        Serial.print("Value: ");
-        Serial.println(temp);
         if (temp == cache_)
             return &animator_;
         cache_ = temp;

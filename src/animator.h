@@ -50,7 +50,7 @@ class Animator {
         C6H                             // Ignore scan
     };
 
-    enum class Animation {
+    enum class Animation : int8_t {
         NONE,
         BLINK,
         FADE_OUT,
@@ -267,10 +267,10 @@ private:
 
     static inline DisplayControl_e fetchControlPercent(float value) noexcept {
         DisplayControl_e displayControls[] = {DisplayControl_e::DISPLAY_OFF, DisplayControl_e::PULSE_WIDTH_1_16,
-                             DisplayControl_e::PULSE_WIDTH_2_16, DisplayControl_e::PULSE_WIDTH_4_16,
-                             DisplayControl_e::PULSE_WIDTH_10_16, DisplayControl_e::PULSE_WIDTH_11_16,
-                             DisplayControl_e::PULSE_WIDTH_12_16, DisplayControl_e::PULSE_WIDTH_13_16,
-                             DisplayControl_e::PULSE_WIDTH_14_16};
+                                              DisplayControl_e::PULSE_WIDTH_2_16, DisplayControl_e::PULSE_WIDTH_4_16,
+                                              DisplayControl_e::PULSE_WIDTH_10_16, DisplayControl_e::PULSE_WIDTH_11_16,
+                                              DisplayControl_e::PULSE_WIDTH_12_16, DisplayControl_e::PULSE_WIDTH_13_16,
+                                              DisplayControl_e::PULSE_WIDTH_14_16};
         for (auto control : displayControls) {
             if (value <= control2Percent(control)) {
                 return control;
