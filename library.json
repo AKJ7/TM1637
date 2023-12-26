@@ -1,0 +1,22 @@
+{
+    "name": "TM1637 Driver",
+    "frameworks": "arduino",
+    "platforms": ["avr", "espressif8266", "espressif32"],
+    "version": "2.2.0",
+    "keywords": "tm1637, TM1637, Display, Animation",
+    "description": "Features: -Display integers, float, string with only one function. -Nonblocking animation: Blink, scrollLeft, fadeIn, fadeOut -Customizable offset, pad, overflow. -Custom raw value display. -Tunable brightness. -Screen clearing and splitting. Visit https://github.com/AKJ7/TM1637 for more information.",
+    "url": "https://github.com/AKJ7/TM1637",
+    "authors": [
+        {
+            "name": "AKJ",
+            "url": "https://github.com/AKJ7",
+            "email": " <akj123429@gmail.com>",
+            "maintainer": true
+        }
+    ],
+    "license": "GPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AKJ7/TM1637.git"
+    }
+}

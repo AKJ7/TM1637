@@ -4,12 +4,14 @@
 #include <Arduino.h>
 
 // Put a longer delay in case your TM1637 is having issues with timing due to onboard capacitors
+#ifndef TM1637_DELAY
 #define TM1637_DELAY 2
+#endif
 
 class MI2C
 {
 public:
-    MI2C(uint8_t clkPin, uint8_t dataPin) noexcept : clkPin_{clkPin}, dataPin_{dataPin}
+    constexpr MI2C(uint8_t clkPin, uint8_t dataPin) noexcept : clkPin_{clkPin}, dataPin_{dataPin}
     {}
 
     ~MI2C() = default;
