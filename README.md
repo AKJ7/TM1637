@@ -118,7 +118,7 @@ struct DisplayDigit
  Tested on my Arduino Uno. Should work on every controller board that supports the Arduino platform.
 
 
-## Contribution  
+## Contributions  
 
 Since i am very lazy, feel free to contribute. Pull Requests get added faster ;-)
 
@@ -130,3 +130,4 @@ Many thanks to these contributors:
 - [andrewerrington](https://github.com/andrewerrington)   
 - [jcmadrioso](https://github.com/jcmadrioso)
 - [Kostyantyn Matviyevskyy](https://github.com/kostyamat)
+- [vortigont](https://github.com/vortigont)
