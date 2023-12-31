@@ -107,7 +107,7 @@ struct DisplayDigit {
      * Allow implicit static casting to uint8_t
      * @return Encoded digit in byte
      */
-    operator uint8_t() { return value; }
+    operator uint8_t() const { return value; }
 
     /**
      * Allow implicit conversion from uint8_t
@@ -234,7 +234,7 @@ public:
      * @brief Turn display off
      * @return Instance of the current animator
      */
-    inline Animator *offMode() const noexcept {
+    inline Animator *offMode() noexcept {
         animator_.off();
         return &animator_;
     };
@@ -243,7 +243,7 @@ public:
      * @brief Turn display on
      * @return Instance of the current animator
      */
-    inline Animator *onMode() const noexcept {
+    inline Animator *onMode() noexcept {
         animator_.on(animator_.brightness_);
         return &animator_;
     };
