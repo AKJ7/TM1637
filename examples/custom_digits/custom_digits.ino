@@ -21,8 +21,8 @@
                 Animator *>::type
         display(const T value, bool overflow = true, bool pad = false, uint8_t offset = 0);
         Animator *displayRawBytes(const uint8_t *buffer, size_t size);
-        inline Animator *offMode() const noexcept;
-        inline Animator *onMode() const noexcept;
+        inline Animator *offMode() noexcept;
+        inline Animator *onMode() noexcept;
         inline Animator *colonOff() noexcept;
         inline Animator *colonOn() noexcept;
         inline Animator *switchColon() noexcept;
@@ -63,7 +63,7 @@
         DisplayDigit& setG();
         DisplayDigit& setDot();
         DisplayDigit& operator=(uint8_t rhs);
-        operator uint8_t();
+        operator uint8_t() const;
     }
  */
 

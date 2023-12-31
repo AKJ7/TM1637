@@ -22,6 +22,8 @@ setDp   KEYWORD2
 getBrightness   KEYWORD2
 changeBrightness	KEYWORD2
 setBrightness   KEYWORD2
+changeBrightnessPercent    KEYWORD2
+setFloatDigitCount  KEYWORD2
 blink   KEYWORD2
 fadeIn  KEYWORD2
 fadeOut KEYWORD2

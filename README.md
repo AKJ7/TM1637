@@ -50,7 +50,6 @@ void loop()
 ## API  
 
 ```cpp
-
 class TM1637 {
 public:
     TM1637(uint8_t clkPin, uint8_t dataPin) noexcept: animator_(clkPin, dataPin, TOTAL_DIGITS) {};
@@ -68,14 +67,14 @@ public:
             Animator *>::type
     display(const T value, bool overflow = true, bool pad = false, uint8_t offset = 0);
     Animator *displayRawBytes(const uint8_t *buffer, size_t size);
-    inline Animator *offMode() const noexcept;
-    inline Animator *onMode() const noexcept;
+    inline Animator *offMode() noexcept;
+    inline Animator *onMode() noexcept;
     inline Animator *colonOff() noexcept;
     inline Animator *colonOn() noexcept;
     inline Animator *switchColon() noexcept;
     inline Animator *clearScreen() noexcept;
     inline Animator *setDp(uint8_t value) noexcept;
-    inline uint8_t getBrightness() const noexcept;
+    inline uint8_t getBrightness() noexcept;
     inline float getBrightnessPercent() const noexcept;
     void changeBrightness(uint8_t value) noexcept;
     void setBrightness(uint8_t value) noexcept;
@@ -110,9 +109,8 @@ struct DisplayDigit
     DisplayDigit& setG();
     DisplayDigit& setDot();
     DisplayDigit& operator=(uint8_t rhs);
-    operator uint8_t();
+    operator uint8_t() const;
 }
-
 ```
 
 ## Test  
